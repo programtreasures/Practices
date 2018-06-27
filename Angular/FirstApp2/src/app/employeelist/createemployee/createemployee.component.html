@@ -1,0 +1,164 @@
+<div class="container">
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Add Employee</h3>
+    </div>
+    <div class="panel-body">
+       <form ngNativeValidate #employeeForm="ngForm" (ngSubmit)="saveEmployee(employee)">
+         <div class="form-group" [class.has-error]="name.invalid && name.touched">
+           <label for="name">Name</label>
+           <input id="name" required name="name" 
+                [(ngModel)]="employee.name" 
+                #name="ngModel" autocomplete="false"
+                class="form-control" type="text"/>
+                <span class="help-block" *ngIf="name.invalid && name.touched">Name is required</span>
+         </div>
+         <div>
+          <!-- touched : {{nameControl.touched}} <br>
+              untouched : {{nameControl.untouched}} <br>
+              pristine : {{nameControl.pristine}} <br>
+              dirty : {{nameControl.dirty}} <br>
+              valid : {{nameControl.valid}} <br>
+              invalid : {{nameControl.invalid}} <br>  
+
+              pending : {{nameControl.pending}} <br>  
+              errors : {{nameControl.errors | json}} <br>  
+              status : {{nameControl.status}} <br>  
+              statusChanges : {{nameControl.statusChanges | json }} <br>  
+              path : {{nameControl.path | json}} <br>  
+              valueChanges : {{nameControl.valueChanges| json}} <br>   -->
+              
+<!--               
+              get valid: boolean | null
+              get invalid: boolean | null
+              get pending: boolean | null
+              get disabled: boolean | null
+              get enabled: boolean | null
+              get errors: ValidationErrors | null
+              get pristine: boolean | null
+              get dirty: boolean | null
+              get touched: boolean | null
+              get status: string | null
+              get untouched: boolean | null
+              get statusChanges: Observable<any> | null
+              get valueChanges: Observable<any> | null
+              get path: string[] | null -->
+
+         </div>
+
+         <div class="form-group" [class.has-error]="contactpreferance.invalid && contactpreferance.touched">
+          <label class="radio-inline">
+            <input id="contactpreferance" name="contactpreferance" [(ngModel)]="employee.contactpreferance" 
+              #contactpreferance="ngModel" required
+              value="email" type="radio"/>
+            Email
+          </label>
+          <label  class="radio-inline">
+            <input id="contactpreferance" name="contactpreferance" [(ngModel)]="employee.contactpreferance" 
+              #contactpreferance="ngModel" required
+              value="phone" type="radio"/>
+            Phone
+          </label>
+          <span class="help-block" *ngIf="contactpreferance.invalid && contactpreferance.touched">Contact Preferance is required</span>
+        </div>
+
+         <div class="form-group" *ngIf="contactpreferance.value=='email'" [class.has-error]="email.invalid && email.touched">
+            <label for="email">Email</label>
+            <input id="email" [required]="contactpreferance.value=='email'" email name="email" 
+              #email="ngModel"
+              [(ngModel)]="employee.email" class="form-control" type="text"/>
+            <span class="help-block" *ngIf="email.errors?.required && email.touched">Email is required</span>
+            <span class="help-block" *ngIf="email.errors?.email && email.touched">Email is invalid</span>
+          </div>
+          <div class="form-group"  *ngIf="contactpreferance.value=='phone'" [class.has-error]="phone.invalid && phone.touched">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" [(ngModel)]="employee.phone" 
+              #phone="ngModel" [required]="contactpreferance.value=='phone'"
+              class="form-control" type="text"/>
+              <span class="help-block" *ngIf="phone.invalid && phone.touched">Phone is required</span>
+          </div>
+          <div class="form-group">
+            <label class="radio-inline">
+              <input id="gender" name="gender" [(ngModel)]="employee.gender" 
+                value="male" type="radio"/>
+              Male
+            </label>
+            <label  class="radio-inline">
+              <input id="gender" name="gender" [(ngModel)]="employee.gender" 
+                value="female" type="radio"/>
+              Female
+            </label>
+          </div>
+          <div class="form-group">
+            <label >
+              <input id="isActive" name="isActive" [(ngModel)]="employee.isActive" 
+                type="checkbox"/>
+              IsActive
+            </label>
+          </div>
+          <div class="form-group" [class.has-error]="department.errors?.defaultSelected && department.touched">
+            <label for="department">Department</label>
+            <!-- <select id="department" name="department" [(ngModel)]="department" class="form-control">
+              <option value="0">HR</option>
+              <option value="1">QA</option>
+              <option value="2">Development</option>
+              <option value="3">Management</option>
+            </select> -->
+            
+            <select id="department" name="department"  #department="ngModel"
+            SelectListValidator [(ngModel)]="employee.department" class="form-control">
+              <option value="">Select</option>
+              <option *ngFor="let dept of departments" [value]="dept.id">
+                {{dept.name}}
+              </option>              
+            </select>
+            <span class="help-block" *ngIf="department.errors?.defaultSelected && department.touched">Department is required</span>                                      
+          </div>
+
+          <div class="form-group">
+            <label for="dateofbirth">Date of Birth</label>
+            <input id="dateofbirth" name="dateofbirth" 
+                      [bsConfig]="dobdatepickerconfig"  
+                      [(ngModel)]="employee.dateofbirth" 
+                      class="form-control" bsDatepicker type="text"/>
+          </div>
+
+          <div class="form-group">
+            <label for="imagePath">Image Path</label>
+            <input id="imagePath" name="imagePath" [(ngModel)]="employee.imagePath" class="form-control" type="text"/>
+            <button type="button" (click)="toggleShowImage()" class="btn btn-primary" >Show Image</button>
+          </div>
+
+
+          <img [src]="imagePath" *ngIf="employee.showimage" width="50px" >
+
+
+          <div class="form-group" [class.has-error]="password.invalid && password.touched">
+            <label for="password">Password</label>
+            <input id="password" required name="password" 
+              #password="ngModel" (input)="confirmPassword.control.updateValueAndValidity()"
+              [(ngModel)]="employee.password" class="form-control" type="text"/>
+            <span class="help-block" *ngIf="password.errors?.required && password.touched">Password is required</span>            
+          </div>
+
+          <div class="form-group" [class.has-error]="confirmPassword.invalid && confirmPassword.touched">
+            <label for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" required name="confirmPassword" 
+              #confirmPassword="ngModel" confirmPassword="password"
+              [(ngModel)]="employee.confirmPassword" class="form-control" type="text"/>
+            <span class="help-block" *ngIf="confirmPassword.errors?.required && confirmPassword.touched">Confirm Password is required</span>            
+            <span class="help-block" *ngIf="confirmPassword.errors?.notEqual && confirmPassword.touched">Password and Confirm Password are not equal</span>            
+          </div>
+
+          <div class="form-group">              
+              <input id="submit"
+                [disabled]="employeeForm.invalid" name="submit"  class="btn btn-default" type="submit"/>
+            </div>
+       </form>
+    </div>
+  </div>
+</div>
+
+NgForm Object {{employeeForm.value | json}} <br>
+Employee Object {{employee | json}} <br>

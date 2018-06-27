@@ -1,0 +1,56 @@
+<div class="container">
+
+<div class="panel panel-primary" *ngFor="let employee of employees">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{employee.name}}</h3>    
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-4">
+        <img [src]="employee.imagePath" />
+          
+        </div>
+        <div class="col-md-8">
+<div class="row">
+    <div class="col-md-6">Id</div>
+    <div class="col-md-6">{{employee.id}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Name</div>
+    <div class="col-md-6">{{employee.name}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Contact Preferance</div>
+    <div class="col-md-6">{{employee.contactpreferance}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Email</div>
+    <div class="col-md-6">{{employee.email}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Phone</div>
+    <div class="col-md-6">{{employee.phone}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Gender</div>
+    <div class="col-md-6">{{employee.gender}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Active</div>
+    <div class="col-md-6">{{employee.isActive}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Date of Birth</div>
+    <div class="col-md-6">{{employee.dateofbirth | date:'dd/MMM/y'}}</div>
+</div>
+<div class="row">
+    <div class="col-md-6">Salary</div>
+    <div class="col-md-6">{{employee.salary}}</div>
+</div>
+          </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-success">test</button>
+</div>
